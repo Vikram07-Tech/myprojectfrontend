@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stock Prediction App - Register</title>
+  <style>
+    :root {
+      --bg: #0d1c2b;
+      --card: #112e4a;
+      --border: #2b5876;
+      --focus: #3ea1ff;
+      --text: #eaf1fb;
+      --muted: #9cb4d8;
+      --success: #30c78f;
+      --danger: #f26a6a;
+      --accent: #1f9dff;
+      --shadow: rgba(4, 9, 22, 0.45);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
+      min-height: 100vh;
+      color: var(--text);
+      background: radial-gradient(circle at 20% 20%, rgba(30, 107, 182, 0.22), transparent 40%),
+                  linear-gradient(180deg, #0f2340 0%, #08141f 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .watermark {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) rotate(-10deg);
+      opacity: 0.08;
+      pointer-events: none;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220"><path d="M10,180 L70,120 L110,150 L150,80 L190,120 L230,50 L270,90 L310,40 L350,75" fill="none" stroke="%23ffffff" stroke-width="4" stroke-linecap="round" stroke-dasharray="8 8"/></svg>') center/contain no-repeat;
+    }
+
+    .card {
+      position: relative;
+      width: min(560px, 96vw);
+      padding: 26px;
+      background: linear-gradient(145deg, #0f2f55, #113b68);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      box-shadow: 0 16px 40px var(--shadow);
+      backdrop-filter: blur(2px);
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .brand {
+      margin-bottom: 1.25rem;
+      text-align: center;
+    }
+
+    .brand img { width: 54px; height: auto; vertical-align: middle; }
+    .brand h1 {
+      display: inline-block;
+      margin-left: 0.7rem;
+      font-size: 1.35rem;
+      color: #e5f4ff;
+      vertical-align: middle;
+    }
+
+    h2 { margin-top: 0; color: #d1e7ff; }
+    p { color: var(--muted); }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-size: 0.92rem;
+      color: #d1e7ff;
+      margin-bottom: 6px;
+      display: inline-block;
+    }
+
+    .field {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 6px;
+    }
+
+    input {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 14px;
+      font-size: 0.95rem;
+      min-height: 44px;
+      background: rgba(16, 40, 67, 0.95);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    input:focus {
+      border-color: var(--focus);
+      box-shadow: 0 0 0 3px rgba(62, 161, 255, 0.2);
+    }
+
+    .help {
+      margin-top: 5px;
+      font-size: 0.84rem;
+      color: var(--muted);
+      min-height: 18px;
+    }
+
+    .help.error {
+      color: var(--danger);
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
+      background: transparent;
+      color: #91bbee;
+      cursor: pointer;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .password-toggle:hover { color: #c3e6ff; }
+
+    .submit-control {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    button[type="submit"] {
+      border: none;
+      padding: 12px 16px;
+      min-height: 44px;
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #1c79ff, #1180d7);
+      cursor: pointer;
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+
+    button[type="submit"]:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 19px rgba(15, 142, 255, 0.5);
+    }
+
+    button[type="submit"]:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .bottom-note { font-size: 0.82rem; color: var(--muted); }
+    .bottom-note strong { color: #d5ebff; }
+
+    .responsive-widget {
+      margin-top: 18px;
+      padding: 14px;
+      background: rgba(18, 46, 72, 0.6);
+      border: 1px solid rgba(158, 191, 238, 0.2);
+      border-radius: 10px;
+    }
+
+    .responsive-widget h3 {
+      margin: 0 0 10px;
+      color: #cde7ff;
+      font-size: 0.98rem;
+    }
+
+    .grid-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .card-table, .chart-placeholder {
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      padding: 10px;
+      background: rgba(12, 28, 45, 0.85);
+      min-height: 120px;
+    }
+
+    .card-table .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      font-size: 0.84rem;
+      padding: 7px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      color: #e4f2ff;
+    }
+
+    .card-table .row.headings {
+      font-weight: 600;
+      border-bottom-width: 1px;
+      color: #a8defa;
+    }
+
+    .card-table .up { color: #57dd7f; }
+    .card-table .down { color: #ff6977; }
+
+    .chart-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 0.86rem;
+      min-height: 132px;
+    }
+
+    @media (max-width: 780px) {
+      .grid-wrapper { grid-template-columns: 1fr; }
+      .card { width: min(95vw, 100%); }
+      input { min-height: 50px; }
+      button[type="submit"] { min-height: 48px; }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="watermark"></div>
+  <article class="card" role="main" aria-labelledby="register-title">
+    <div class="brand" aria-label="Stock Prediction logo">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M6 42 L22 26 L34 36 L44 20 L58 34' fill='none' stroke='%23ffffff' stroke-width='5' stroke-linecap='round'/%3E%3C/circle%3E%3C/svg%3E" alt="Stock trend logo" />
+      <h1>StockIQ</h1>
+    </div>
+
+    <h2 id="register-title">Create your account</h2>
+    <p>Secure sign-up for your Stock Price Prediction dashboard.</p>
+
+    <form id="registration-form" novalidate>
+      <div class="field">
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text" placeholder="Enter your username" required minlength="3" />
+        <span class="help" id="username-help"></span>
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="Enter your email" required />
+        <span class="help" id="email-help"></span>
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" placeholder="Create a password" required minlength="8" aria-describedby="password-help" />
+        <button type="button" class="password-toggle" id="toggle-password" aria-label="Show or hide password">
+          👁
+        </button>
+        <span class="help" id="password-help">Minimum 8 characters.</span>
+      </div>
+
+      <div class="field">
+        <label for="confirm-password">Confirm Password</label>
+        <input id="confirm-password" name="confirm-password" type="password" placeholder="Re-enter your password" required minlength="8" />
+        <span class="help" id="confirm-help"></span>
+      </div>
+
+      <div class="submit-control">
+        <button type="submit" id="submit-btn">Register</button>
+        <p class="bottom-note">By registering, you agree to our <strong>data security</strong> and privacy policy.</p>
+      </div>
+    </form>
+
+    <section class="responsive-widget" aria-label="Sample analytics previews">
+      <h3>Live Data Preview (Responsive)</h3>
+      <div class="grid-wrapper">
+        <div class="card-table" role="table" aria-label="Sample stock data table">
+          <div class="row headings"><span>Symbol</span><span>Price</span><span>Change</span></div>
+          <div class="row"><span>STIQ</span><span>$289.40</span><span class="up">+2.5%</span></div>
+          <div class="row"><span>BLBR</span><span>$421.12</span><span class="down">-1.2%</span></div>
+          <div class="row"><span>GRTH</span><span>$118.74</span><span class="up">+0.7%</span></div>
+        </div>
+        <div class="chart-placeholder" aria-label="Placeholder for stock trend chart">Trend chart placeholder</div>
+      </div>
+    </section>
+  </article>
+
+  <script>
+    const form = document.getElementById('registration-form');
+    const usernameInput = document.getElementById('username');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const confirmInput = document.getElementById('confirm-password');
+    const togglePasswordBtn = document.getElementById('toggle-password');
+
+    const help = {
+      username: document.getElementById('username-help'),
+      email: document.getElementById('email-help'),
+      password: document.getElementById('password-help'),
+      confirm: document.getElementById('confirm-help')
+    };
+
+    const setError = (element, message) => {
+      element.textContent = message;
+      element.classList.add('error');
+    };
+
+    const clearError = (element) => {
+      element.textContent = '';
+      element.classList.remove('error');
+    };
+
+    togglePasswordBtn.addEventListener('click', () => {
+      const isPassword = passwordInput.type === 'password';
+      passwordInput.type = isPassword ? 'text' : 'password';
+      confirmInput.type = isPassword ? 'text' : 'password';
+      togglePasswordBtn.textContent = isPassword ? '🙈' : '👁';
+    });
+
+    const checkPasswordStrength = () => {
+      const value = passwordInput.value;
+      const valid = value.length >= 8;
+      if (!valid) {
+        setError(help.password, 'Password should be at least 8 characters.');
+      } else {
+        clearError(help.password);
+      }
+      return valid;
+    };
+
+    const validateConfirmPassword = () => {
+      if (confirmInput.value !== passwordInput.value) {
+        setError(help.confirm, 'Passwords do not match.');
+        return false;
+      }
+      clearError(help.confirm);
+      return true;
+    };
+
+    passwordInput.addEventListener('input', checkPasswordStrength);
+    confirmInput.addEventListener('input', validateConfirmPassword);
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      let valid = true;
+
+      if (!usernameInput.checkValidity()) {
+        setError(help.username, 'Please enter a username (min 3 chars).');
+        valid = false;
+      } else {
+        clearError(help.username);
+      }
+
+      if (!emailInput.checkValidity()) {
+        setError(help.email, 'Please enter a valid email address.');
+        valid = false;
+      } else {
+        clearError(help.email);
+      }
+
+      if (!checkPasswordStrength() || !validateConfirmPassword()) {
+        valid = false;
+      }
+
+      if (!valid) {
+        return;
+      }
+
+      // simulate a server check
+      const existingEmails = ['test@stockiq.com', 'admin@stockiq.com'];
+      if (existingEmails.includes(emailInput.value.trim().toLowerCase())) {
+        setError(help.email, 'Email already exists.');
+        return;
+      }
+
+      alert('Success! Your account request has been submitted.');
+      form.reset();
+      [help.username, help.email, help.password, help.confirm].forEach(clearError);
+      togglePasswordBtn.textContent = '👁';
+      passwordInput.type = 'password';
+      confirmInput.type = 'password';
+    });
+
+    function updateResponsiveUI() {
+      const width = window.innerWidth;
+      const card = document.querySelector('.card');
+      const chart = document.querySelector('.chart-placeholder');
+      const body = document.body;
+
+      if (width <= 550) {
+        body.style.fontSize = '13px';
+        card.style.padding = '18px';
+        chart.textContent = 'Mobile trend preview (tap to interact)';
+      } else if (width <= 780) {
+        body.style.fontSize = '14px';
+        card.style.padding = '22px';
+        chart.textContent = 'Tablet trend preview';
+      } else {
+        body.style.fontSize = '15px';
+        card.style.padding = '28px';
+        chart.textContent = 'Trend chart placeholder';
+      }
+
+      if (width < 500) {
+        document.querySelectorAll('input, button').forEach(el => el.style.fontSize = '1rem');
+      } else {
+        document.querySelectorAll('input, button').forEach(el => el.style.fontSize = '0.95rem');
+      }
+    }
+
+    window.addEventListener('resize', updateResponsiveUI);
+    window.addEventListener('orientationchange', updateResponsiveUI);
+    window.addEventListener('DOMContentLoaded', updateResponsiveUI);
+
+    // initial check
+    updateResponsiveUI();
+  </script>
+</body>
+</html>
